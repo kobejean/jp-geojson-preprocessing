@@ -78,8 +78,8 @@ npx mapshaper \
         $COMMON_PROPERTIES \
         " \
     -simplify interval=5000 \
-    -o output/geo-json/regions.geojson
-ls -lh output/geo-json/regions.geojson
+    -o output/geo-json/index.geojson
+ls -lh output/geo-json/index.geojson
 
 # output/*/prefectures.geojson
 REGIONS="\
@@ -299,3 +299,5 @@ do
     ls -lh "output/geo-json/$2/index.geojson"
 done
 IFS=$OLDIFS
+
+node process.js
