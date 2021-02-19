@@ -72,7 +72,7 @@ npx mapshaper \
     input/N03-19_190101.shp \
     -each "region=${REGIONS_MAP}[N03_001]" \
     -dissolve region copy-fields=region  \
-    -rename-fields name=region \
+    -rename-fields id=region \
     -each "\
         type = 'region'; \
         $COMMON_PROPERTIES \
@@ -101,7 +101,7 @@ do
         -filter "$REGIONS_MAP[N03_001] == '$1'" \
         -dissolve N03_001 copy-fields=N03_001 \
         -each "\
-            type = 'prefecture', name=N03_001; \
+            type = 'prefecture', id=N03_001; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=1000 \
@@ -123,7 +123,7 @@ do
         -filter "N03_001 === '$1'" \
         -dissolve N03_002 copy-fields=N03_001,N03_002 \
         -each "\
-            type = 'subprefecture', name=N03_002; \
+            type = 'subprefecture', id=N03_002; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=1000 \
@@ -196,9 +196,9 @@ do
             }\
         " \
         -dissolve city copy-fields=city,N03_001,N03_002,N03_003,N03_004,N03_007 \
-        -rename-fields name=city \
+        -rename-fields id=city \
         -each "\
-            type = name.slice(-1) === '区' ? 'district' : 'city'; \
+            type = id.slice(-1) === '区' ? 'district' : 'city'; \
             $COMMON_PROPERTIES \
             if (!!N03_003 && N03_003.slice(-1) !== '郡') {\
                 delete N03_004;\
@@ -244,9 +244,9 @@ do
             }\
         " \
         -dissolve city copy-fields=city,N03_001,N03_002,N03_003,N03_004,N03_007 \
-        -rename-fields name=city \
+        -rename-fields id=city \
         -each "\
-            type = name.slice(-1) === '区' ? 'district' : 'city'; \
+            type = id.slice(-1) === '区' ? 'district' : 'city'; \
             $COMMON_PROPERTIES \
             if (!!N03_003 && N03_003.slice(-1) !== '郡') {\
                 delete N03_004;\
@@ -291,7 +291,7 @@ do
         -filter "N03_003 === '$1'" \
         -dissolve N03_004 copy-fields=N03_001,N03_002,N03_003,N03_004,N03_007 \
         -each "\
-            type = 'district', name=N03_004; \
+            type = 'district', id=N03_004; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=100 \
