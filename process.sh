@@ -74,11 +74,11 @@ npx mapshaper \
     -dissolve region copy-fields=region  \
     -rename-fields id=region \
     -each "\
-        type = 'region'; \
+        type = 'region', rank = this.id; \
         $COMMON_PROPERTIES \
         " \
     -simplify interval=5000 \
-    -o output/geo-json/index.geojson
+    -o precision=0.01 output/geo-json/index.geojson
 ls -lh output/geo-json/index.geojson
 
 # output/*/prefectures.geojson
@@ -101,11 +101,11 @@ do
         -filter "$REGIONS_MAP[N03_001] == '$1'" \
         -dissolve N03_001 copy-fields=N03_001 \
         -each "\
-            type = 'prefecture', id=N03_001; \
+            type = 'prefecture', id=N03_001, rank = this.id; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=1000 \
-        -o "output/geo-json/$2/index.geojson"
+        -o precision=0.001 "output/geo-json/$2/index.geojson"
     ls -lh "output/geo-json/$2/index.geojson"
 done
 IFS=$OLDIFS
@@ -123,16 +123,16 @@ do
         -filter "N03_001 === '$1'" \
         -dissolve N03_002 copy-fields=N03_001,N03_002 \
         -each "\
-            type = 'subprefecture', id=N03_002; \
+            type = 'subprefecture', id=N03_002, rank = this.id; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=1000 \
-        -o "output/geo-json/$2/index.geojson"
+        -o precision=0.001 "output/geo-json/$2/index.geojson"
     ls -lh "output/geo-json/$2/index.geojson"
 done
 IFS=$OLDIFS
 
-# output/*/*/cities.geojson
+# cities geojson
 PREFECTURES="\
     青森県,tohoku/aomori \
     岩手県,tohoku/iwate \
@@ -198,15 +198,15 @@ do
         -dissolve city copy-fields=city,N03_001,N03_002,N03_003,N03_004,N03_007 \
         -rename-fields id=city \
         -each "\
-            type = id.slice(-1) === '区' ? 'district' : 'city'; \
+            type = id.slice(-1) === '区' ? 'district' : 'city', rank = this.id; \
             $COMMON_PROPERTIES \
             if (!!N03_003 && N03_003.slice(-1) !== '郡') {\
                 delete N03_004;\
                 delete N03_007;\
             }\
             " \
-        -simplify interval=500 \
-        -o "output/geo-json/$2/index.geojson"
+        -simplify interval=750 \
+        -o  precision=0.0001 "output/geo-json/$2/index.geojson"
     ls -lh "output/geo-json/$2/index.geojson"
 done
 IFS=$OLDIFS
@@ -246,15 +246,15 @@ do
         -dissolve city copy-fields=city,N03_001,N03_002,N03_003,N03_004,N03_007 \
         -rename-fields id=city \
         -each "\
-            type = id.slice(-1) === '区' ? 'district' : 'city'; \
+            type = id.slice(-1) === '区' ? 'district' : 'city', rank = this.id; \
             $COMMON_PROPERTIES \
             if (!!N03_003 && N03_003.slice(-1) !== '郡') {\
                 delete N03_004;\
                 delete N03_007;\
             }\
             " \
-        -simplify interval=500 \
-        -o "output/geo-json/$2/index.geojson"
+        -simplify interval=750 \
+        -o precision=0.0001 "output/geo-json/$2/index.geojson"
     ls -lh "output/geo-json/$2/index.geojson"
 done
 IFS=$OLDIFS
@@ -291,11 +291,11 @@ do
         -filter "N03_003 === '$1'" \
         -dissolve N03_004 copy-fields=N03_001,N03_002,N03_003,N03_004,N03_007 \
         -each "\
-            type = 'district', id=N03_004; \
+            type = 'district', id=N03_004, rank = this.id; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=100 \
-        -o "output/geo-json/$2/index.geojson"
+        -o precision=0.0001 "output/geo-json/$2/index.geojson"
     ls -lh "output/geo-json/$2/index.geojson"
 done
 IFS=$OLDIFS
