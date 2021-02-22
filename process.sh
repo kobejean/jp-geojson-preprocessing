@@ -63,7 +63,10 @@ REGIONS_MAP='{\
 }'
 
 COMMON_PROPERTIES='\
-    interiorPoint = { x: this.innerX, y: this.innerY }; \
+    display_point = { \
+      "type": "Point", \
+      "coordinates": [this.innerX, this.innerY], \
+    }; \
     const [xMin, yMin, xMax, yMax] = this.bounds; \
     bounds = { xMin, yMin, xMax, yMax };'
 
@@ -71,10 +74,11 @@ COMMON_PROPERTIES='\
 npx mapshaper \
     input/N03-19_190101.shp \
     -each "region=${REGIONS_MAP}[N03_001]" \
-    -dissolve region copy-fields=region  \
+    -dissolve region copy-fields=region \
+    -calc 'total = count()' \
     -rename-fields id=region \
     -each "\
-        type = 'region', rank = this.id; \
+        type = 'region', rank = this.id / total; \
         $COMMON_PROPERTIES \
         " \
     -simplify interval=5000 \
@@ -100,8 +104,9 @@ do
         input/N03-19_190101.shp \
         -filter "$REGIONS_MAP[N03_001] == '$1'" \
         -dissolve N03_001 copy-fields=N03_001 \
+        -calc 'total = count()' \
         -each "\
-            type = 'prefecture', id=N03_001, rank = this.id; \
+            type = 'prefecture', id=N03_001, rank = this.id / total; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=1000 \
@@ -122,8 +127,9 @@ do
         input/N03-19_190101.shp \
         -filter "N03_001 === '$1'" \
         -dissolve N03_002 copy-fields=N03_001,N03_002 \
+        -calc 'total = count()' \
         -each "\
-            type = 'subprefecture', id=N03_002, rank = this.id; \
+            type = 'subprefecture', id=N03_002, rank = this.id / total; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=1000 \
@@ -196,9 +202,10 @@ do
             }\
         " \
         -dissolve city copy-fields=city,N03_001,N03_002,N03_003,N03_004,N03_007 \
+        -calc 'total = count()' \
         -rename-fields id=city \
         -each "\
-            type = id.slice(-1) === '区' ? 'district' : 'city', rank = this.id; \
+            type = id.slice(-1) === '区' ? 'district' : 'city', rank = this.id / total; \
             $COMMON_PROPERTIES \
             if (!!N03_003 && N03_003.slice(-1) !== '郡') {\
                 delete N03_004;\
@@ -244,9 +251,10 @@ do
             }\
         " \
         -dissolve city copy-fields=city,N03_001,N03_002,N03_003,N03_004,N03_007 \
+        -calc 'total = count()' \
         -rename-fields id=city \
         -each "\
-            type = id.slice(-1) === '区' ? 'district' : 'city', rank = this.id; \
+            type = id.slice(-1) === '区' ? 'district' : 'city', rank = this.id / total; \
             $COMMON_PROPERTIES \
             if (!!N03_003 && N03_003.slice(-1) !== '郡') {\
                 delete N03_004;\
@@ -290,8 +298,9 @@ do
         input/N03-19_190101.shp \
         -filter "N03_003 === '$1'" \
         -dissolve N03_004 copy-fields=N03_001,N03_002,N03_003,N03_004,N03_007 \
+        -calc 'total = count()' \
         -each "\
-            type = 'district', id=N03_004, rank = this.id; \
+            type = 'district', id=N03_004, rank = this.id / total; \
             $COMMON_PROPERTIES \
             " \
         -simplify interval=100 \

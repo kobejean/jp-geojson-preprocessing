@@ -1,4 +1,4 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import yamagata from './yamagata'
 import iwate from './iwate'
 import aomori from './aomori'
@@ -7,6 +7,6 @@ import fukushima from './fukushima'
 import akita from './akita'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { yamagata, iwate, aomori, miyagi, fukushima, akita }
 }

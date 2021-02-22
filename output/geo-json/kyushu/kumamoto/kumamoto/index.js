@@ -1,6 +1,6 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: {  }
 }

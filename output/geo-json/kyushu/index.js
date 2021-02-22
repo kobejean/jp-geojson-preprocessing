@@ -1,4 +1,4 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import nagasaki from './nagasaki'
 import oita from './oita'
 import okinawa from './okinawa'
@@ -9,6 +9,6 @@ import kumamoto from './kumamoto'
 import miyazaki from './miyazaki'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { nagasaki, oita, okinawa, fukuoka, saga, kagoshima, kumamoto, miyazaki }
 }

@@ -1,4 +1,4 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import tokachi from './tokachi'
 import kamikawa from './kamikawa'
 import hiyama from './hiyama'
@@ -15,6 +15,6 @@ import soya from './soya'
 import nemuro from './nemuro'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { tokachi, kamikawa, hiyama, kushiro, rumoi, iburi, hidaka, oshima, shiribeshi, okhotsk, sorachi, ishikari, soya, nemuro }
 }

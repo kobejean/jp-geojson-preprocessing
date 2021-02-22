@@ -1,7 +1,7 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import hiroshima from './hiroshima'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { hiroshima }
 }

@@ -1,7 +1,7 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import saitama from './saitama'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { saitama }
 }

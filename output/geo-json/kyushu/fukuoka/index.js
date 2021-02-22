@@ -1,8 +1,8 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import fukuoka from './fukuoka'
 import kitakyushu from './kitakyushu'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { fukuoka, kitakyushu }
 }

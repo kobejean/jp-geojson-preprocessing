@@ -1,11 +1,12 @@
 const Kuroshiro = require("kuroshiro");
 const KuromojiAnalyzer = require("kuroshiro-analyzer-kuromoji");
+// const translate = require("translate");
 
 const kuroshiro = new Kuroshiro();
 const analyzer = new KuromojiAnalyzer();
 
-const trimRegEx = /^(.*)(都|府|県|振興局|支庁|政令|都|市|郡|区)$/;
-async function idFromName(name) {
+const trimRegEx = /^(.*)(都|府|県|振興局|支庁|政令|都|市|郡|町|村|区)$/;
+async function toSimpleRomaji(name) {
   const options = { to: "romaji", romajiSystem: "passport" };
   const matches = name && name.match(trimRegEx);
   const trimmed = (matches && matches[1]) || name;
@@ -17,7 +18,7 @@ async function idFromName(name) {
   return converted;
 }
 
-async function enFromName(name) {
+async function toDisplayRomaji(name) {
   const options = { to: "romaji", romajiSystem: "hepburn" };
   const matches = name && name.match(trimRegEx);
   const trimmed = (matches && matches[1]) || name;
@@ -34,5 +35,5 @@ async function init() {
 }
 
 exports.init = init;
-exports.idFromName = idFromName;
-exports.enFromName = enFromName;
+exports.toSimpleRomaji = toSimpleRomaji;
+exports.toDisplayRomaji = toDisplayRomaji;

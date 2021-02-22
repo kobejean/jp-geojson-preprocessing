@@ -20,7 +20,8 @@
     "jest": "26.4.2",
     "kuroshiro": "^1.1.2",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
-    "mapshaper": "0.5.20"
+    "mapshaper": "0.5.20",
+    "translate": "^1.2.1"
   },
   "nodemonConfig": {
     "ignore": [

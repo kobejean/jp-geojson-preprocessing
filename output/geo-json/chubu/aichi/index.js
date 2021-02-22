@@ -1,7 +1,7 @@
-import featureCollection from './index.geojson'
+import geoJSON from './index.geojson'
 import nagoya from './nagoya'
 
 export default {
-  features: featureCollection.features,
+  geoJSON,
   items: { nagoya }
 }
